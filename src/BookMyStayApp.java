@@ -1,4 +1,4 @@
-public class HotelBookingApp {
+public class BookMyStayApp {
     public static void main(String[] args) {
         // Use Case 1: Application Entry & Welcome Message
         displayWelcomeMessage();
