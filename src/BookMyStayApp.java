@@ -1,50 +1,52 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BookMyStayApp {
 
-
-    // Centralized inventory using HashMap
-    private static Map<String, Integer> roomInventory = new HashMap<>();
-    private static Map<String, Double> roomPricing = new HashMap<>();
+    // Booking Request Queue
+    private static Queue<Reservation> bookingQueue = new LinkedList<>();
 
     public static void main(String[] args) {
-        // Initialize inventory and pricing
-        initializeInventory();
+        System.out.println("=== Use Case 5: Booking Request Queue ===");
 
-        // Use Case 4: Room Search & Availability Check
-        searchAvailableRooms();
+        // Guest submits booking requests
+        submitBookingRequest(new Reservation("Alice", "Single Room"));
+        submitBookingRequest(new Reservation("Bob", "Double Room"));
+        submitBookingRequest(new Reservation("Charlie", "Suite Room"));
+
+        // Display queued requests
+        displayBookingQueue();
     }
 
-    // Register room types with counts and pricing
-    private static void initializeInventory() {
-        roomInventory.put("Single Room", 5);
-        roomInventory.put("Double Room", 3);
-        roomInventory.put("Suite Room", 0); // Suite unavailable
-
-        roomPricing.put("Single Room", 1500.0);
-        roomPricing.put("Double Room", 2500.0);
-        roomPricing.put("Suite Room", 5000.0);
-
-        System.out.println("Inventory initialized successfully.\n");
+    // Submit a booking request (added to queue)
+    private static void submitBookingRequest(Reservation reservation) {
+        bookingQueue.add(reservation);
+        System.out.println("Booking request submitted: " + reservation);
     }
 
-    // Guest initiates a search request
-    private static void searchAvailableRooms() {
-        System.out.println("--- Room Search Results ---");
-
-        for (String roomType : roomInventory.keySet()) {
-            int availability = roomInventory.get(roomType);
-            double price = roomPricing.get(roomType);
-
-            // Filter out unavailable rooms
-            if (availability > 0) {
-                System.out.println(roomType + " | Available: " + availability + " | Price: ₹" + price);
-            }
+    // Display current queue state
+    private static void displayBookingQueue() {
+        System.out.println("\n--- Current Booking Request Queue ---");
+        for (Reservation r : bookingQueue) {
+            System.out.println(r);
         }
+        System.out.println("-------------------------------------");
+    }
+}
 
-        System.out.println("----------------------------");
+// Reservation class to represent guest intent
+class Reservation {
+    private String guestName;
+    private String roomType;
+
+    public Reservation(String guestName, String roomType) {
+        this.guestName = guestName;
+        this.roomType = roomType;
     }
 
+    @Override
+    public String toString() {
+        return "Guest: " + guestName + " | Room Type: " + roomType;
+    }
 }
